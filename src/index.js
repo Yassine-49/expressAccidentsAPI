@@ -2,19 +2,16 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
-const mongoose = require('mongoose');
 
 require('dotenv').config();
 
+// ======= DB & MIDDLEWARE =======
+const db = require('./../models');
 const middlewares = require('./middlewares');
-const accidents = require('./api/accidents');
+//const accidents = require('./api/accidents');
+const accidents = require('../routes/api/accidents');
 
 const app = express();
-
-mongoose.connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
 
 app.use(morgan('common'));
 app.use(helmet());
@@ -37,6 +34,8 @@ app.use(middlewares.errorHandler);
 
 // ========= LISTENER =============
 const port = process.env.PORT || 2000;
-app.listen(port, () => {
-    console.log(`listening at localhost:${port}`);
+db.sequelize.sync().then(() => {
+    app.listen(port, () => {
+        console.log(`listening at localhost:${port}`);
+    });
 });

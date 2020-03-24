@@ -1,15 +1,5 @@
 const mongoose = require('mongoose');
 
-/* 
-title:  { type: String, default: "Accident"},
-description: String,
-isResolved: { type: Boolean, default: false },
-dateNtime: { type: Date },
-latitude: { type: Number, required: true, min: -90, max: 90 },
-longitude: { type: Number, required: true, min: -180, max: 180 },
-numberOfInjuries: { type: Number, min: 0, default: 0 },
-*/
-
 const Schema = mongoose.Schema;
 const AccidentEntrySchema = new Schema({
     title:  {type: String, default: "Accident"},

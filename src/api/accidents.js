@@ -9,9 +9,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res, next) => {
-    console.log(req);
     try {
-
         const newRecord = new AccidentEntry({
             ...req.body
         });
@@ -47,7 +45,6 @@ router.put('/', async (req, res, next) => {
 
 router.delete('/:_id', async (req, res, next) => {
     try {
-        console.log(req.params._id);
         const record = await AccidentEntry.findByIdAndDelete(req.params._id);
         res.json(record);
         
