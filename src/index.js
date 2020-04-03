@@ -7,13 +7,13 @@ require('dotenv').config();
 
 // ======= DB & MIDDLEWARE =======
 const db = require('./../models');
-const middlewares = require('./middlewares');
-//const accidents = require('./api/accidents');
+const errorHandlers = require('../helpers/errorHandlers');
 const accidents = require('../routes/api/accidents');
+const users = require('../routes/users/users');
 
 const app = express();
 
-app.use(morgan('common'));
+app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
@@ -26,13 +26,14 @@ app.get('/', (req, res) => {
 });
 
 // ========== API ROUTES ==========
+app.use('/users', users);
 app.use('/api/accidents', accidents);
 
 // ========== ERROR HANDLER =======
-app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
+app.use(errorHandlers.notFound);
+app.use(errorHandlers.errorHandler);
 
-// ========= LISTENER =============
+// ========= START SERVER =============
 const port = process.env.PORT || 2000;
 db.sequelize.sync().then(() => {
     app.listen(port, () => {

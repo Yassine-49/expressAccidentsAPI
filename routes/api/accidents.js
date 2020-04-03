@@ -1,80 +1,31 @@
-const { Router } = require('express');
-const router = Router();
-const db = require('./../../models');
+const router = require('express-promise-router')();
+const passport = require('passport');
+
+const accidentController = require('../../controllers/accidents');
+
+const authMiddleware = passport.authenticate('jwt', { session: false });
 
 // READ ALL
-router.get('/', async (req, res) => {
-    await db.AccidentEntry.findAll().then(accidentEntries => {
-        res.json(accidentEntries);
-    });
-});
+router.route('/')
+    .get(authMiddleware, accidentController.getAll);
 
 // READ ONE
-router.get('/:id', async (req, res, next) => {
-    try {
-        const record = await db.AccidentEntry.findByPk(req.params.id);
-        record ? res.json(record) : res.json('record not found!');
-       
-    } catch (error) {
-        next(error);
-    }
-});
+router.route('/:id')
+    .get(authMiddleware, accidentController.getOne);
 
 // READ (SEARCH)
 // TODO
 
 // CREATE
-router.post('/', async (req, res, next) => {
-    try {
-        const newRecord = await db.AccidentEntry.create({
-            ...req.body
-        });
-        res.json(newRecord);
-    } catch (error) {
-        if(error.name === 'SequelizeValidationError')
-            res.status(400);
-        next(error);
-    }
-});
+router.route('/')
+    .post(authMiddleware, accidentController.create);
 
 // UPDATE
-router.put('/', async (req, res, next) => {
-    try {
-        const record = await db.AccidentEntry.findByPk(req.body.id);
-        if(record)
-        {
-            const newRecord = {
-                ...record.dataValues,
-                ...req.body
-            }
-            res.json(newRecord);
-        }
-        else
-        {
-            res.status(404);
-            res.json('record not found!');
-        }
-    } catch (error) {
-        if(error.name === 'SequelizeValidationError')
-            res.status(400);
-        next(error);
-    }
-});
+router.route('/')
+    .put(authMiddleware, accidentController.update);
 
 // DELETE
-router.delete('/:id', async (req, res, next) => {
-    try {
-        const record = await db.AccidentEntry.destroy({
-            where: {
-                id: req.params.id
-            }
-        });
-        res.json(record);
-    } catch (error) {
-        if(error.name === 'SequelizeValidationError')
-            res.status(400);
-        next(error);
-    }
-})
+router.route('/:id')
+    .delete(authMiddleware, accidentController.delete);
 
 module.exports = router;
