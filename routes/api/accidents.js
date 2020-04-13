@@ -7,25 +7,25 @@ const authMiddleware = passport.authenticate('jwt', { session: false });
 
 // READ ALL
 router.route('/')
-    .get(authMiddleware, accidentController.getAll);
+    .get(accidentController.getAll);
 
 // READ ONE
 router.route('/:id')
-    .get(authMiddleware, accidentController.getOne);
+    .get(accidentController.getOne);
 
 // READ (SEARCH)
 // TODO
 
 // CREATE
 router.route('/')
-    .post(authMiddleware, accidentController.create);
+    .post(accidentController.create);
 
 // UPDATE
 router.route('/')
-    .put(authMiddleware, accidentController.update);
+    .put(accidentController.update);
 
 // DELETE
 router.route('/:id')
-    .delete(authMiddleware, accidentController.delete);
+    .delete(accidentController.delete);
 
 module.exports = router;
