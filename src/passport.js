@@ -6,9 +6,10 @@ const db = require('../models');
 
 // JSON WEB TOKENS STRATEGY
 passport.use(new JwtStrategy({
-    jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET
 }, async (payload, done) => {
+    console.log('payload:', payload);
     try {
         // find the specified user in token
         const user = await db.User.findByPk(payload.sub);
@@ -28,18 +29,18 @@ passport.use(new LocalStrategy({
 }, async (username, password, done) => {
     try {
         // find user
-        const user = await db.User.findOne({ where: { username} });
-        // if user not handle error
+        const user = await db.User.findOne({ where: {username} });
+        // if user not found handle error
         if(!user)
-            return done(null, false);
+            return done(null, false, { message: 'incorrect username'});
         // if user found check password
         const isCorrect = await db.User.isValidPassword(user, password);
         // if password incorrect handle error
         if(!isCorrect)
-            return done(null, false);
+            return done(null, false, { message: 'incorrect password'});
         // if password correct return user
-        done(null, user);
+        done(null, user, { message: 'login successful' });
     } catch (error) {
-        done(null, false);
+        done(error, false);
     }
 }));

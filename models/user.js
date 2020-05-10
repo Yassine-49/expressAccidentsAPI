@@ -32,8 +32,10 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  User.associate = function(models) {
+
+  User.associate = (models) => {
     // associations can be defined here
+    User.hasMany(models.AccidentEntry)
   };
 
   User.isValidPassword = async function(user, enteredPassword)

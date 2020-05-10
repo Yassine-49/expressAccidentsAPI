@@ -16,13 +16,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.TEXT,
       },
+      numberOfInjuries: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+      },
       isResolved: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
-      },
-      dateNtime: {
-        allowNull: false,
-        type: Sequelize.DATE,
       },
       latitude: {
         allowNull: false,
@@ -32,10 +32,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DOUBLE,
       },
-      numberOfInjuries: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -43,6 +39,10 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+      },
+      userId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
       }
     });
   },
