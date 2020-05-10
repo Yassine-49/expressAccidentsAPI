@@ -21,7 +21,7 @@ app.use(express.json());
 // ========== ROUTES ==============
 app.get('/', (req, res) => {
     res.json({
-        message: "hello world",
+        message: "Accidents API",
     });
 });
 

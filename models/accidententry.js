@@ -11,9 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    dateNtime: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW
+    numberOfInjuries: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      validate: {
+        min: 0
+      }
     },
     latitude: {
       type: DataTypes.DOUBLE,
@@ -29,16 +32,15 @@ module.exports = (sequelize, DataTypes) => {
         max: 90,
       }
     },
-    numberOfInjuries: {
+    userId: {
       type: DataTypes.INTEGER,
-      defaultValue: 0,
-      validate: {
-        min: 0
-      }
     }
   }, {});
+
   AccidentEntry.associate = function(models) {
     // associations can be defined here
+    AccidentEntry.belongsTo(models.User);
   };
+  
   return AccidentEntry;
 };
