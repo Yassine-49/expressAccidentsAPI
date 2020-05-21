@@ -19,7 +19,7 @@ module.exports = {
             ...req.body,
             userId: req.user.id
         });
-        res.json(newRecord);
+        res.json({ record: newRecord, message: 'record added!' });
     },
     // update a record and return a message
     update: async (req, res, next) => {

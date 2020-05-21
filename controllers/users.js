@@ -25,7 +25,8 @@ module.exports = {
             res.status(200).json({
                 email: newRecord.dataValues.email,
                 username: newRecord.dataValues.username,
-                token
+                token,
+                message: 'User created!',
             });
         } catch(error)
         {
@@ -41,7 +42,8 @@ module.exports = {
         res.status(200).json({
             email: req.user.dataValues.email,
             username: req.user.dataValues.username,
-            token
+            token,
+            message: 'User logged in!',
         });
     },
 

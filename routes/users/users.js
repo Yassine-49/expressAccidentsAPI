@@ -24,7 +24,7 @@ const jwtAuthMiddleware = (req, res, next) => {
 
 const localAuthMiddleware = (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
-        if(!user) return res.status(200).json(info);
+        if(err || !user) return res.status(401).json(info);
         req.user = user;
         next();
     })(req, res, next);
